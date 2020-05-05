@@ -1,0 +1,8 @@
+---
+Name: api-cacher-settings
+---
+SilverStripe\Core\Injector\Injector:
+  Psr\SimpleCache\CacheInterface.apiCacher:
+    factory: SilverStripe\Core\Cache\CacheFactory
+    constructor:
+      namespace: "apiCacher"
