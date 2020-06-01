@@ -12,10 +12,13 @@ class FeedHelper {
         $cache = Injector::inst()->get(CacheInterface::class . '.apiCacher');
 
         if (!$cache->has($safeUrl)) {
-            $json = @file_get_contents($url);
+            $json = FeedHelper::fetchJson($url);
+
             $cache->set($safeUrl, $json, 300);
         }else{
-            $json = $cache->get($safeUrl);
+            //always fetch json for now
+            // $json = $cache->get($safeUrl);
+             $json = FeedHelper::fetchJson($url);
         }
         if($json){
             $jsonDecoded = json_decode($json, TRUE);
@@ -29,15 +32,16 @@ class FeedHelper {
 
     public static function fetchJson($url){
         if(function_exists("curl_init")){
+
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $content = curl_exec($ch);
+
             curl_close($ch);
             return $content;
         } else {
-           return @file_get_contents($url);
+           return file_get_contents($url);
         }
     }
 }
