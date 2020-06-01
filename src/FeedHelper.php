@@ -17,8 +17,8 @@ class FeedHelper {
             $cache->set($safeUrl, $json, 300);
         }else{
             //always fetch json for now
-            // $json = $cache->get($safeUrl);
-             $json = FeedHelper::fetchJson($url);
+            $json = $cache->get($safeUrl);
+             // $json = FeedHelper::fetchJson($url);
         }
         if($json){
             $jsonDecoded = json_decode($json, TRUE);
